@@ -18,11 +18,14 @@ class Student {
         }
     }
     let studentAccount: StudentAccount!
+    let studentPhoto: UIImage!
     
     
-    init (firstName: String, lastName: String, lessonPrice: NSDecimalNumber, currentBalance: NSDecimalNumber) {
+    init (firstName: String, lastName: String, lessonPrice: NSDecimalNumber, currentBalance: NSDecimalNumber, studentPhoto: UIImage) {
         self.firstName = firstName
         self.lastName = lastName
         self.studentAccount = StudentAccount(lessonPrice: lessonPrice, currentBalance: currentBalance)
+        self.studentPhoto = studentPhoto
     }
+    
 }

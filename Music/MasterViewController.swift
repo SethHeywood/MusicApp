@@ -11,6 +11,7 @@ import Parse
 
 class MasterViewController: UITableViewController {
 
+
     @IBOutlet weak var addButton: UIBarButtonItem!
     var detailViewController: DetailViewController? = nil
     var students: Students {
@@ -38,8 +39,14 @@ class MasterViewController: UITableViewController {
             self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
         }
         
+         NSNotificationCenter.defaultCenter().addObserver(self, selector: "loadList:",name:"StudentTable", object: nil)
+        
         // Load data from Parse
-        loadAccounts()
+//        loadAccounts()
+    }
+    
+    func loadList(notification: NSNotification){
+        self.tableView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -83,6 +90,9 @@ class MasterViewController: UITableViewController {
 
         let student = students.students[indexPath.row]
         cell.textLabel!.text = student.fullName
+        cell.imageView!.image = student.studentPhoto
+
+        
         return cell
     }
 
@@ -138,7 +148,8 @@ class MasterViewController: UITableViewController {
                         let lastName: String = object.objectForKey("lastName") as! String
                         let lessonPrice = MoneyUtilities.dollarStringToDecimalNumber(object.objectForKey("lessonPrice") as! String)
                         let currentBalance = MoneyUtilities.dollarStringToDecimalNumber(object.objectForKey("currentBalance") as! String)
-                        self.students.students.append(Student(firstName: firstName, lastName: lastName, lessonPrice: lessonPrice, currentBalance: currentBalance))
+                        let studentPhoto = object.objectForKey("studentPhoto") as! UIImage
+                        self.students.students.append(Student(firstName: firstName, lastName: lastName, lessonPrice: lessonPrice, currentBalance: currentBalance, studentPhoto: studentPhoto))
                     }
                     self.tableView.reloadData()
                 }
